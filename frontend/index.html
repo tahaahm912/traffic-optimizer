@@ -5,18 +5,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Traffic Flow Optimizer</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>Traffic Flow Optimization System</h1>
+    <header>
+        <h1>Traffic Flow Optimizer</h1>
+        <p>Adaptive Traffic Light Control Simulation</p>
+    </header>
 
-    <p>Adaptive Traffic Light Control Simulation</p>
+    <main>
+        <section class="status-section">
+            <h2>Simulation Dashboard</h2>
+            <p id="simulationStatus">Simulation stopped</p>
 
-    <button id="startBtn">Start Simulation</button>
-    <button id="pauseBtn">Pause Simulation</button>
-    <button id="resetBtn">Reset Simulation</button>
+            <div class="button-group">
+                <button id="startBtn">Start Simulation</button>
+                <button id="stopBtn">Stop Simulation</button>
+                <button id="resetBtn">Reset Simulation</button>
+            </div>
+        </section>
 
-    <div id="simulation">
-        <p>Traffic simulation will appear here.</p>
-    </div>
+        <section class="metrics">
+            <div class="card">
+                <h3>Total Vehicles</h3>
+                <p id="vehicles">120</p>
+            </div>
+
+            <div class="card">
+                <h3>Average Waiting Time</h3>
+                <p><span id="waiting">35</span> seconds</p>
+            </div>
+
+            <div class="card">
+                <h3>Active Signals</h3>
+                <p id="signals">4</p>
+            </div>
+
+            <div class="card">
+                <h3>Congestion Level</h3>
+                <p id="congestion">Medium</p>
+            </div>
+        </section>
+
+        <section class="queue-section">
+            <h2>Vehicle Queue and Adaptive Timing</h2>
+
+            <div class="metrics">
+                <div class="card">
+                    <h3>Queue Length</h3>
+                    <p id="queueLength">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Adaptive Green Time</h3>
+                    <p><span id="greenTime">10</span> seconds</p>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button id="addVehicleBtn">Add Vehicle</button>
+                <button id="removeVehicleBtn">Remove Vehicle</button>
+            </div>
+
+            <h3>Waiting Vehicles</h3>
+            <ul id="vehicleList">
+                <li>No vehicles in the queue.</li>
+            </ul>
+
+            <p id="queueMessage" role="status"></p>
+        </section>
+
+        <section class="intersection-section">
+            <h2>Intersection Status</h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Intersection</th>
+                            <th>Vehicles</th>
+                            <th>Signal</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="intersectionTable">
+                        <tr>
+                            <td colspan="4">Loading intersection data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Traffic Flow Optimization and Adaptive Traffic Light Control System</p>
+        <p>Academic simulation project</p>
+    </footer>
+
+    <script src="js/app.js"></script>
 </body>
 </html>

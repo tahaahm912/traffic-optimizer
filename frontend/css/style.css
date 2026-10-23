@@ -1,0 +1,179 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f2f5f9;
+    color: #202b3c;
+}
+
+header {
+    background: #17365d;
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+header h1 {
+    margin: 0 0 8px;
+}
+
+header p {
+    margin: 0;
+}
+
+main {
+    max-width: 1100px;
+    margin: 25px auto;
+    padding: 0 18px;
+}
+
+section {
+    margin-bottom: 25px;
+    padding: 22px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+h2 {
+    margin-top: 0;
+}
+
+.status-section {
+    text-align: center;
+}
+
+#simulationStatus {
+    font-weight: bold;
+    color: #17365d;
+}
+
+.metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.card {
+    background: #edf3fa;
+    border-left: 4px solid #2878c8;
+    border-radius: 7px;
+    padding: 18px;
+    text-align: center;
+}
+
+.card h3 {
+    margin-top: 0;
+    font-size: 16px;
+}
+
+.card p {
+    margin-bottom: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+button {
+    border: none;
+    border-radius: 6px;
+    padding: 11px 17px;
+    background: #2168ad;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #164b80;
+}
+
+button:focus-visible {
+    outline: 3px solid #f0a500;
+    outline-offset: 2px;
+}
+
+#resetBtn {
+    background: #b83b3b;
+}
+
+#resetBtn:hover {
+    background: #8e2525;
+}
+
+#vehicleList {
+    padding-left: 25px;
+}
+
+#vehicleList li {
+    margin: 8px 0;
+    overflow-wrap: anywhere;
+}
+
+#queueMessage {
+    color: #17365d;
+    font-weight: bold;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th,
+td {
+    padding: 12px;
+    border: 1px solid #d5dce5;
+    text-align: left;
+}
+
+th {
+    background: #17365d;
+    color: white;
+}
+
+tbody tr:nth-child(even) {
+    background: #f2f5f9;
+}
+
+footer {
+    padding: 20px;
+    text-align: center;
+    background: #17365d;
+    color: white;
+}
+
+footer p {
+    margin: 5px;
+}
+
+@media (max-width: 600px) {
+    main {
+        padding: 0 10px;
+    }
+
+    section {
+        padding: 15px;
+    }
+
+    button {
+        width: 100%;
+    }
+}

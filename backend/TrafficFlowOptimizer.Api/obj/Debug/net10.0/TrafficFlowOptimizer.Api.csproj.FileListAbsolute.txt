@@ -31,3 +31,4 @@ E:\traffic-optimizer\backend\TrafficFlowOptimizer.Api\obj\Debug\net10.0\refint\T
 E:\traffic-optimizer\backend\TrafficFlowOptimizer.Api\obj\Debug\net10.0\TrafficFlowOptimizer.Api.pdb
 E:\traffic-optimizer\backend\TrafficFlowOptimizer.Api\obj\Debug\net10.0\TrafficFlowOptimizer.Api.genruntimeconfig.cache
 E:\traffic-optimizer\backend\TrafficFlowOptimizer.Api\obj\Debug\net10.0\ref\TrafficFlowOptimizer.Api.dll
+E:\traffic-optimizer\backend\TrafficFlowOptimizer.Api\obj\Debug\net10.0\TrafficFlowOptimizer.Api.sourcelink.json
