@@ -12,6 +12,58 @@ const removeVehicleBtn = document.getElementById("removeVehicleBtn");
 const simulationStatus = document.getElementById("simulationStatus");
 const queueMessage = document.getElementById("queueMessage");
 
+function renderMapSignals(intersections) {
+    const signalIds = ["A", "B", "C", "D"];
+
+    signalIds.forEach(function (id, index) {
+        const signalElement = document.getElementById(
+            "mapSignal" + id
+        );
+
+        const intersection = intersections[index];
+
+        if (!intersection || !signalElement) {
+            return;
+        }
+
+        const signal = intersection.signal.toLowerCase();
+
+        signalElement.className = "map-signal";
+
+        if (signal === "red") {
+            signalElement.classList.add("red");
+        } else if (signal === "yellow") {
+            signalElement.classList.add("yellow");
+        } else {
+            signalElement.classList.add("green");
+        }
+    });
+}
+
+function renderMapVehicles(vehicles) {
+    const mapVehicles = document.getElementById("mapVehicles");
+    const mapMessage = document.getElementById("mapMessage");
+
+    mapVehicles.innerHTML = "";
+
+    const visibleVehicles = vehicles.slice(0, 15);
+
+    visibleVehicles.forEach(function (vehicleId, index) {
+        const car = document.createElement("div");
+
+        car.className = "map-car";
+        car.style.left = (4 + index * 4) + "%";
+        car.style.top = "32%";
+        car.title = "Vehicle " + vehicleId;
+
+        mapVehicles.appendChild(car);
+    });
+
+    mapMessage.textContent =
+        vehicles.length + " vehicles in the backend queue. " +
+        "Showing " + visibleVehicles.length + " on the map.";
+}
+
 // Load dashboard information from the API.
 async function loadTrafficData() {
     try {
@@ -22,6 +74,7 @@ async function loadTrafficData() {
         }
 
         const data = await response.json();
+        renderMapSignals(data.intersections);
 
         isRunning = data.isRunning;
 
@@ -74,6 +127,86 @@ async function loadTrafficData() {
     }
 }
 
+async function loadNetworkData() {
+    const response = await fetch(API_URL + "/network");
+
+    if (!response.ok) {
+        throw new Error("Failed to load road network");
+    }
+
+    const data = await response.json();
+
+    const intersectionList = document.getElementById("networkIntersections");
+    const roadList = document.getElementById("roadList");
+
+    intersectionList.innerHTML = "";
+    roadList.innerHTML = "";
+
+    data.intersections.forEach(function (intersection) {
+        const item = document.createElement("li");
+
+        item.textContent =
+            intersection.name +
+            " — " + intersection.vehicleCount + " vehicles" +
+            " — Signal: " + intersection.signal.state;
+
+        intersectionList.appendChild(item);
+    });
+
+    data.roads.forEach(function (road) {
+        const card = document.createElement("div");
+        card.className = "road-card";
+
+        const details = document.createElement("p");
+        details.textContent =
+            road.name + " (" +
+            road.startIntersectionId + " → " +
+            road.endIntersectionId + ")" +
+            " — " + road.lengthMeters + " m";
+
+        const status = document.createElement("p");
+        status.textContent = road.isBlocked ? "Status: Blocked" : "Status: Open";
+
+        const button = document.createElement("button");
+        button.textContent = road.isBlocked ? "Reopen Road" : "Block Road";
+
+        button.addEventListener("click", async function () {
+            button.disabled = true;
+
+            try {
+                const updateResponse = await fetch(
+                    API_URL + "/road/block",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            roadId: road.id,
+                            isBlocked: !road.isBlocked
+                        })
+                    }
+                );
+
+                if (!updateResponse.ok) {
+                    throw new Error("Could not update road status");
+                }
+
+                await loadNetworkData();
+            } catch (error) {
+                console.error(error);
+                alert("Failed to update road. Check that the API is running.");
+                button.disabled = false;
+            }
+        });
+
+        card.appendChild(details);
+        card.appendChild(status);
+        card.appendChild(button);
+        roadList.appendChild(card);
+    });
+}
+
 // Load vehicle queue and adaptive green time.
 async function loadQueueData() {
     try {
@@ -84,6 +217,7 @@ async function loadQueueData() {
         }
 
         const data = await response.json();
+        renderMapVehicles(data.vehicles);
 
         document.getElementById("queueLength").textContent =
             data.queueLength;
@@ -166,3 +300,6 @@ removeVehicleBtn.addEventListener("click", async function () {
 // Load data when the page opens.
 loadTrafficData();
 loadQueueData();
+loadNetworkData().catch(function (error) {
+    console.error("Network loading error:", error);
+});

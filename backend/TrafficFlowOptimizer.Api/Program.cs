@@ -22,14 +22,6 @@ app.UseCors("FrontendPolicy");
 
 bool isRunning = false;
 
-var intersections = new[]
-{
-    new { name = "Intersection A", vehicles = 25, signal = "Green", status = "Moving" },
-    new { name = "Intersection B", vehicles = 40, signal = "Red", status = "Waiting" },
-    new { name = "Intersection C", vehicles = 30, signal = "Green", status = "Moving" },
-    new { name = "Intersection D", vehicles = 25, signal = "Red", status = "Waiting" }
-};
-
 app.MapGet("/", () =>
 {
     return Results.Ok(new
@@ -38,7 +30,7 @@ app.MapGet("/", () =>
     });
 });
 
-app.MapGet("/api/traffic/status", () =>
+app.MapGet("/api/traffic/status", (TrafficSimulation simulation) =>
 {
     return Results.Ok(new
     {
@@ -47,7 +39,7 @@ app.MapGet("/api/traffic/status", () =>
         averageWaitingSeconds = 35,
         activeSignals = 4,
         congestionLevel = "Medium",
-        intersections = intersections
+        intersections = simulation.GetDashboardIntersections()
     });
 });
 
@@ -132,4 +124,38 @@ app.MapPost("/api/traffic/vehicle/remove", (TrafficSimulation simulation) =>
     });
 });
 
+// Get intersections and roads.
+app.MapGet("/api/traffic/network", (TrafficSimulation simulation) =>
+{
+    return Results.Ok(simulation.GetNetwork());
+});
+
+// Block or unblock a road.
+app.MapPost("/api/traffic/road/block", (
+    RoadBlockRequest request,
+    TrafficSimulation simulation) =>
+{
+    bool updated = simulation.SetRoadBlocked(
+        request.RoadId,
+        request.IsBlocked);
+
+    if (!updated)
+    {
+        return Results.NotFound(new
+        {
+            message = "Road not found",
+            roadId = request.RoadId
+        });
+    }
+
+    return Results.Ok(simulation.GetNetwork());
+});
+
 app.Run();
+
+// Request body for blocking or unblocking a road.
+public class RoadBlockRequest
+{
+    public string RoadId { get; set; } = string.Empty;
+    public bool IsBlocked { get; set; }
+}

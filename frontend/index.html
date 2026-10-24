@@ -75,6 +75,53 @@
             <p id="queueMessage" role="status"></p>
         </section>
 
+        <section class="network-section">
+            <h2>Road Network Simulation</h2>
+            <p class="network-description">
+                Visual representation of four simulated intersections.
+            </p>
+        
+            <div id="roadMap" class="road-map">
+                <div class="horizontal-road road-top"></div>
+                <div class="horizontal-road road-bottom"></div>
+                <div class="vertical-road road-left"></div>
+                <div class="vertical-road road-right"></div>
+            
+                <div class="junction" id="junctionA">
+                    <span class="map-signal red" id="mapSignalA"></span>
+                    <span>A</span>
+                </div>
+            
+                <div class="junction" id="junctionB">
+                    <span class="map-signal red" id="mapSignalB"></span>
+                    <span>B</span>
+                </div>
+            
+                <div class="junction" id="junctionC">
+                    <span class="map-signal green" id="mapSignalC"></span>
+                    <span>C</span>
+                </div>
+            
+                <div class="junction" id="junctionD">
+                    <span class="map-signal green" id="mapSignalD"></span>
+                    <span>D</span>
+                </div>
+            
+                <div id="mapVehicles"></div>
+            </div>
+        
+            <div class="map-legend">
+                <span><i class="legend-red"></i> Red signal</span>
+                <span><i class="legend-yellow"></i> Yellow signal</span>
+                <span><i class="legend-green"></i> Green signal</span>
+                <span><i class="legend-car"></i> Queued vehicle</span>
+            </div>
+        
+            <p id="mapMessage" role="status">
+                Waiting for traffic data...
+            </p>
+        </section>
+
         <section class="intersection-section">
             <h2>Intersection Status</h2>
 
@@ -97,6 +144,17 @@
                 </table>
             </div>
         </section>
+
+        <section class="intersection-section">
+            <h2>Road Network Details</h2>
+        
+            <h3>Intersections</h3>
+            <ul id="networkIntersections"></ul>
+        
+            <h3>Connected Roads</h3>
+            <div id="roadList"></div>
+        </section>
+
     </main>
 
     <footer>
